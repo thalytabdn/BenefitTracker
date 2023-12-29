@@ -1,33 +1,32 @@
-import { app } from "..";
+import request from 'supertest';
+import { app } from '..';
 
-import request from "supertest";
+import 'dotenv/config';
 
-describe("GET /ping", () => {
-	it("returns pong if the server is up", async () => {
-		const res = await request(app).get("/ping");
+const user = process.env.USER || '';
+const password = process.env.PASSWORD || '';
 
-		expect(res.text).toEqual("Pong");
-	});
+describe('GET /ping', () => {
+  it('returns pong if the server is up', async () => {
+    const res = await request(app).get('/ping');
+    expect(res.text).toEqual('Pong');
+  });
 });
 
-describe("Post /login", () => {
-	it("should not return token with invalid credentials", async () => {
-		const res = await request(app).post("/login").send({
-			username: "teste",
-			password: "password",
-		});
+describe('POST /login', () => {
+  it('should not return token with invalid credentials', async () => {
+    const res = await request(app).post('/login').send({
+      username: 'teste',
+      password: 'password',
+    });
+    expect(res.status).not.toEqual(201);
+  });
 
-		expect(res.status).not.toEqual(201);
-	});
-});
-
-describe("Post /login", () => {
-	it("should return token with valid credentials", async () => {
-		const res = await request(app).post("/login").send({
-			username: "valida",
-			password: "valida",
-		});
-
-		expect(res.status).toEqual(201);
-	});
+  it('should return token with valid credentials', async () => {
+    const res = await request(app).post('/login').send({
+      username: user,
+      password: password,
+    });
+    expect(res.status).toEqual(200);
+  });
 });
