@@ -6,15 +6,13 @@ interface Credentials {
 class AuthService {
   login = async (credentials: Credentials): Promise<boolean> => {
     try {
-      const response = await fetch('http://teste-dev-api-dev-140616584.us-east-1.elb.amazonaws.com/api/v1/token', {
+      const response = await fetch('http://localhost:3001/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(credentials),
       });
-
-      console.log('🚀 ~ AuthService ~ login= ~ response:', response);
 
       if (!response.ok) {
         return false;
@@ -26,7 +24,6 @@ class AuthService {
         return false;
       }
 
-      // todo: validar data.token
       localStorage.setItem('token', data.token);
 
       return true;

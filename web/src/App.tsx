@@ -15,11 +15,9 @@ import Consulta from "./pages/Consulta/Consulta";
     return (
 
         <Routes>
-          <Route path="/">
-            <Route path="login" element={<Login />} />
+            <Route path="/" element={<Login />} />
             <Route path="consulta-beneficios" element={<Consulta />} />
             <Route path="*" element={<NoMatch />} />
-          </Route>
         </Routes>
     );
   }

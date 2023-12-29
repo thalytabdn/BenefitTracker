@@ -6,24 +6,21 @@ const Login: React.FC = () => {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const navigate = useNavigate();
+  const token = authService.getToken();
+
+  if (token) {
+    navigate("/consulta-beneficios");
+  }
 
   const handleLogin = async (event: React.FormEvent) => {
     event.preventDefault();
+    const authResponse = await authService.login({
+      username: username,
+      password: password,
+    });
 
-    const token = authService.getToken();
-
-    if (token) {
+    if (authResponse) {
       navigate("/consulta-beneficios");
-    } else {
-      const authResponse = await authService.login({
-        username: username,
-        password: password,
-      });
-
-      //todo: colocar authResponse aqui
-      if (!authResponse) {
-        navigate("/consulta-beneficios");
-      }
     }
   };
 

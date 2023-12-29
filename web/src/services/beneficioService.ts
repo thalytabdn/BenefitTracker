@@ -15,15 +15,16 @@ export interface Beneficio {
 
 class BeneficioService {
   getBeneficios = async (cpf: string): Promise<Beneficio[] | undefined> => {
+    const numerosCpf = cpf.replace(/\D/g, '');
     try {
       const token = authService.getToken();
-      const url = `http://teste-dev-api-dev-140616584.us-east-1.elb.amazonaws.com/api/v1/inss/consulta-beneficios?cpf=${cpf}`;
+      const url = `http://localhost:3001/search?cpf=${numerosCpf}`;
       const response = await fetch(url, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${token}`,
         },
-        credentials: 'include', // Habilita o envio de credenciais (cookies) na requisição
+        credentials: 'include',
       });
 
       if (response.ok) {

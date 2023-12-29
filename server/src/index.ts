@@ -4,11 +4,13 @@ import { connectToQueue } from './utils/rabbitmq';
 import { connectToRedis } from './utils/redis';
 import { connectToElasticsearch } from './utils/elasticsearch';
 import routes from './routes';
+import cors from 'cors';
 
 export const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
+app.use(cors());
 app.use('/', routes);
 
 app.listen(PORT, () => {
